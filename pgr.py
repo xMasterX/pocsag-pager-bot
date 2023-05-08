@@ -9,20 +9,20 @@ API_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN_HERE_From_BotFather"
 bot = telebot.TeleBot(API_TOKEN)
 
 user_dict = {
-    111111111: { # Your telegram ID
+    111111111: {  # Your telegram ID
         "name": "U1:",
         "lastmessage": "",
         "lastnumber": "",
         "access": True,
         "limited_access": False,
     },
-    222222222: { # Other user telegram ID
+    222222222: {  # Other user telegram ID
         "name": "U2:",
         "lastmessage": "",
         "lastnumber": "",
         "access": True,
         "limited_access": True,
-    }
+    },
 }
 
 
@@ -92,6 +92,7 @@ def process_message_step(message):
         msg = bot.reply_to(message, "Ошибка!")
         send_welcome(msg)
 
+
 # Most important things are below
 def msg_regex_cut(text):
     res = re.sub(r"[^a-zA-ZА-Яа-я0-9 =#@\n$%&*()_+';./:>?,<!ёЁ-]+", "*", text)
@@ -144,7 +145,7 @@ def send_msg_to_pgr(capcode, freq, mesg):
         + '") | sudo /home/pi/rpitx/pocsag -f "'
         + freq
         + '" -b 3 -r 1200'
-    ) # -r 1200 === POCSAG 1200
+    )  # -r 1200 === POCSAG 1200
     print(command)
     stream = os.popen(command)
     output = stream.read()
@@ -202,7 +203,9 @@ def process_send_step(message):
                         message, "Для отправки на этот номер нужно иметь допуск!"
                     )
                     raise Exception("poputal malenko")
-                send_msg_to_pgr("0000121", "160037000", sendmsg) # 0000121 = CAPCODE / 160037000 = Frequency
+                send_msg_to_pgr(
+                    "0000121", "160037000", sendmsg
+                )  # 0000121 = CAPCODE / 160037000 = Frequency
             elif user["lastnumber"] == "122":
                 send_msg_to_pgr("0000122", "160037000", sendmsg)
             elif user["lastnumber"] == "111":
